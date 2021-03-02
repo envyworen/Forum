@@ -12,10 +12,12 @@ class StaticPages extends AbstractController
      */
     public function home(): Response
     {
-        $titre = 'Bienvenue';
+
 
         return $this->render('home.html.twig', [
-            'titre' => $titre
+
         ]);
     }
+
+
 }

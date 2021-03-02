@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <form action="{{ path('post_create') }}" method="post">
+        <input type="text" name="titre">
+        <input type="text" name="categorie">
+        <input type="text" name="question">
+
+        <input type="submit">
+    </form>
+{% endblock %}
