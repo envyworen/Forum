@@ -1,4 +1,27 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<form name="topic" method="post" class="d-flex justify-content-center flex-column align-items-center">
+    <div class="new_topic mb-3 me-5 ms-5 mt-5">
+        <div id="topic">
+            <div class="mb-3 ms-5 me-5">
+                <label for="topic_Titre" class="required form-label font-size-4">Titre</label>
+                <input class="form-control" type="text" id="topic_Titre" name="topic[Titre]" required="required" maxlength="255"/>
+            </div>
+            <div class="mb-3 ms-5 me-5">
+                <label for="topic_Categorie" class="required form-label font-size-4">Categorie</label>
+                <input class="form-control" type="text" id="topic_Categorie" name="topic[Categorie]" required="required" maxlength="255"/>
+            </div>
+            <div class="mb-3 ms-5 me-5">
+                <label for="topic_question" class="required form-label font-size-4">Question</label>
+                <textarea class="form-control" id="topic_question" name="topic[question]" required="required"></textarea>
+            </div>
+            <div class="mb-3 ms-5 me-5">
+                <label for="topic_id_user" class="required form-label font-size-4">Id user</label>
+                <input class="form-control" type="number" id="topic_id_user" name="topic[id_user]" required="required"/>
+            </div>
+            <input type="hidden" id="topic__token" name="topic[_token]"
+                   value="pNhQ1JgJBX8EflMc_8CiCegy2wP-afeT9VV7mONpkkY"/>
+        </div>
+        <button class="btn btn-outline-primary">Save</button>
+    </div>
+</form>
+
+

@@ -20,4 +20,5 @@ class StaticPages extends AbstractController
     }
 
 
+
 }
