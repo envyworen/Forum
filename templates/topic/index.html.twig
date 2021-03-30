@@ -1,34 +1,31 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Topic index{% endblock %}
+
+
 
 {% block body %}
-    <h1>Topic index</h1>
+    <h1 class="text-center mt-3 mb-3">Les Différentes Questions</h1>
 
-    <table class="table">
+    <table class="table table-borderless text-center mt-5 spacing">
         <thead>
-            <tr>
-                <th>Id</th>
+            <tr class="font-size-8">
                 <th>Titre</th>
                 <th>Categorie</th>
                 <th>Question</th>
-                <th>Id_user</th>
-                <th>actions</th>
+
             </tr>
         </thead>
         <tbody>
         {% for topic in topics %}
-            <tr>
-                <td>{{ topic.id }}</td>
-                <td>{{ topic.Titre }}</td>
-                <td>{{ topic.Categorie }}</td>
-                <td>{{ topic.question }}</td>
-                <td>{{ topic.idUser }}</td>
-                <td>
-                    <a href="{{ path('topic_show', {'id': topic.id}) }}">show</a>
-                    <a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>
-                </td>
+
+            <tr class="pt-3">
+
+                <td class="font-size-5 table-info rounded-pill  " ><a class="text-decoration-none text-reset" href="{{ path('topic_show', {'id': topic.id}) }}">{{ topic.Titre }}  </a></td>
+
+                <td class="font-size-5 table-success rounded-pill ">{{ topic.Categorie }}</td>
+                <td class="font-size-5 table-danger rounded-pill ">{{ topic.question|slice(0, 50)|raw }}</td>
+
             </tr>
+
         {% else %}
             <tr>
                 <td colspan="6">no records found</td>
@@ -37,5 +34,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('topic_new') }}">Create new</a>
+
 {% endblock %}

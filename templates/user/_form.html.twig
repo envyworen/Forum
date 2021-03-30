@@ -1,4 +1,20 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+<form name="user" method="post" class="d-flex justify-content-center flex-column align-items-center">
+    <div id="user">
+        <div class="new_topic mb-3 me-5 ms-5 mt-5">
+            <div class="mb-3 ms-5 me-5">
+            <label for="user_pseudo" class="required form-label font-size-4">Pseudo</label>
+            <input class="form-control" type="text" id="user_pseudo" name="user[pseudo]" required="required"/>
+        </div>
+        <div class="mb-3 ms-5 me-5">
+            <label for="user_password_first" class="required form-label font-size-4">Password</label>
+            <input class="form-control" type="password" id="user_password_first" name="user[password][first]" required="required"/></div>
+        <div class="mb-3 ms-5 me-5">
+            <label for="user_password_second" class="required form-label font-size-4">Repeat Password</label>
+            <input class="form-control" type="password" id="user_password_second" name="user[password][second]" required="required"/>
+        </div>
+        <input type="hidden" id="user__token" name="user[_token]" value="nfe5XbMF10nc2osoG62KmvNHTqLF8VWkIBBd1A2b_6I"/>
+    </div>
+    </div>
+    <button class="btn btn-outline-primary">{{ button_label|default('Save') }}</button>
+</form>
+

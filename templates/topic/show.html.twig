@@ -3,36 +3,32 @@
 {% block title %}Topic{% endblock %}
 
 {% block body %}
-    <h1>Topic</h1>
+    <div class="d-flex justify-content-center align-items-center flex-column">
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ topic.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ topic.Titre }}</td>
-            </tr>
-            <tr>
-                <th>Categorie</th>
-                <td>{{ topic.Categorie }}</td>
-            </tr>
-            <tr>
-                <th>Question</th>
-                <td>{{ topic.question }}</td>
-            </tr>
-            <tr>
-                <th>Id_user</th>
-                <td>{{ topic.idUser }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <h2 class="mt-5 titre">{{ topic.Titre }}</h2>
 
-    <a href="{{ path('topic_index') }}">back to list</a>
+        <h3 class="mt-3 categorie">{{ topic.Categorie }}</h3>
 
-    <a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>
+        <div class="border rounded mt-4 question">
+        <p class="m-0 font-size-4">{{ topic.question }}</p>
+        </div>
+    </div>
 
-    {{ include('topic/_delete_form.html.twig') }}
+
+
+    {% if app.user %}
+    {% if app.user.id == topic.iduser or 'ROLE_ADMIN' in app.user.roles %}
+        <div class="d-flex justify-content-around">
+        <a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>
+        {{ include('topic/_delete_form.html.twig') }}
+        </div>
+    {% endif %}
+    {% endif %}
+    {{ include('commentaire/_form.html.twig') }}
+    {% for coms in com  %}
+        {% if coms.idTopic == topic.id %}
+            <p class="text-center">{{ coms.reponse }}</p>
+        {% endif %}
+    {% endfor %}
+
 {% endblock %}

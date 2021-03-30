@@ -2,8 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Commentaire;
 use App\Entity\Topic;
+use App\Form\CommentaireType;
 use App\Form\TopicType;
+use App\Repository\CommentaireRepository;
 use App\Repository\TopicRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/topic')]
 class TopicController extends AbstractController
 {
+
     #[Route('/', name: 'topic_index', methods: ['GET'])]
     public function index(TopicRepository $topicRepository): Response
     {
@@ -33,7 +37,7 @@ class TopicController extends AbstractController
             $entityManager->persist($topic);
             $entityManager->flush();
 
-            return $this->redirectToRoute('topic_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('topic/new.html.twig', [
@@ -42,11 +46,30 @@ class TopicController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'topic_show', methods: ['GET'])]
-    public function show(Topic $topic): Response
+    #[Route('/{id}', name: 'topic_show', methods: ['GET', 'POST'])]
+    public function show(Request $request,Topic $topic, CommentaireRepository $commentaireRepository ): Response
     {
+        $commentaire = new Commentaire();
+        $form = $this->createForm(CommentaireType::class, $commentaire, [
+            'id' => $topic->getId(),
+        ]);
+
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($commentaire);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
+        }
+
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
+            'commentaire' => $commentaire,
+            'com' => $commentaireRepository->findAll(),
+            'form' => $form->createView(),
         ]);
     }
 

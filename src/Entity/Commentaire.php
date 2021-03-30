@@ -32,6 +32,9 @@ class Commentaire
      */
     private $best_rep;
 
+
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,4 +75,9 @@ class Commentaire
 
         return $this;
     }
+
+
+
+
+
 }

@@ -151,3 +151,22 @@
 .new_topic{
     width: 50rem;
 }
+.spacing{
+    border-collapse : separate;
+    border-spacing : 2rem;
+}
+.titre{
+    background-color: lightskyblue;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+.categorie{
+    background-color: lightgreen;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px dashed black;
+}
+.question{
+    padding: 0.5rem 5rem 5rem 1rem;
+}

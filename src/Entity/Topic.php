@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TopicRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Topic
      * @ORM\Column(type="integer")
      */
     private $id_user;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="Topic")
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -86,6 +98,36 @@ class Topic
     public function setIdUser(int $id_user): self
     {
         $this->id_user = $id_user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commentaire[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Commentaire $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTopic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Commentaire $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTopic() === $this) {
+                $comment->setTopic(null);
+            }
+        }
 
         return $this;
     }

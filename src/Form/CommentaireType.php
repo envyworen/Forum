@@ -6,6 +6,7 @@ use App\Entity\Commentaire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class CommentaireType extends AbstractType
 {
@@ -13,8 +14,12 @@ class CommentaireType extends AbstractType
     {
         $builder
             ->add('reponse')
-            ->add('id_topic')
-            ->add('best_rep')
+            ->add('id_topic', HiddenType::class, [
+                'data' => $options['id'],
+            ])
+            ->add('best_rep', HiddenType::class, [
+                'data' => 0,
+            ])
         ;
     }
 
@@ -22,6 +27,7 @@ class CommentaireType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Commentaire::class,
+            'id' => '',
         ]);
     }
 }

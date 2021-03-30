@@ -16,67 +16,120 @@ class CommentaireController extends AbstractController
     #[Route('/', name: 'commentaire_index', methods: ['GET'])]
     public function index(CommentaireRepository $commentaireRepository): Response
     {
-        return $this->render('commentaire/index.html.twig', [
-            'commentaires' => $commentaireRepository->findAll(),
-        ]);
+        if (!empty($this->getUser())) {
+            $inf_roles = $this->getUser()->getRoles();
+
+            if (in_array("ROLE_ADMIN", $inf_roles)) {
+                return $this->render('commentaire/index.html.twig', [
+                    'commentaires' => $commentaireRepository->findAll(),
+                ]);
+            } else {
+                return $this->redirectToRoute('error');
+            }
+        } else {
+            return $this->redirectToRoute('error');
+        }
+
     }
 
     #[Route('/new', name: 'commentaire_new', methods: ['GET', 'POST'])]
     public function new(Request $request): Response
     {
-        $commentaire = new Commentaire();
-        $form = $this->createForm(CommentaireType::class, $commentaire);
-        $form->handleRequest($request);
+        if (!empty($this->getUser())) {
+            $inf_roles = $this->getUser()->getRoles();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($commentaire);
-            $entityManager->flush();
+            if (in_array("ROLE_ADMIN", $inf_roles)) {
+                $commentaire = new Commentaire();
+                $form = $this->createForm(CommentaireType::class, $commentaire);
+                $form->handleRequest($request);
 
-            return $this->redirectToRoute('commentaire_index');
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($commentaire);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('commentaire_index');
+                }
+
+                return $this->render('commentaire/new.html.twig', [
+                    'commentaire' => $commentaire,
+                    'form' => $form->createView(),
+                ]);
+            } else {
+                return $this->redirectToRoute('error');
+            }
+        } else {
+            return $this->redirectToRoute('error');
         }
-
-        return $this->render('commentaire/new.html.twig', [
-            'commentaire' => $commentaire,
-            'form' => $form->createView(),
-        ]);
     }
 
     #[Route('/{id}', name: 'commentaire_show', methods: ['GET'])]
     public function show(Commentaire $commentaire): Response
     {
-        return $this->render('commentaire/show.html.twig', [
-            'commentaire' => $commentaire,
-        ]);
+        if (!empty($this->getUser())) {
+            $inf_roles = $this->getUser()->getRoles();
+
+            if (in_array("ROLE_ADMIN", $inf_roles)) {
+                return $this->render('commentaire/show.html.twig', [
+                    'commentaire' => $commentaire,
+                ]);
+            } else {
+                return $this->redirectToRoute('error');
+            }
+        } else {
+            return $this->redirectToRoute('error');
+        }
     }
 
     #[Route('/{id}/edit', name: 'commentaire_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Commentaire $commentaire): Response
     {
-        $form = $this->createForm(CommentaireType::class, $commentaire);
-        $form->handleRequest($request);
+        if (!empty($this->getUser())) {
+            $inf_roles = $this->getUser()->getRoles();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if (in_array("ROLE_ADMIN", $inf_roles)) {
+                $form = $this->createForm(CommentaireType::class, $commentaire);
+                $form->handleRequest($request);
 
-            return $this->redirectToRoute('commentaire_index');
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $this->getDoctrine()->getManager()->flush();
+
+                    return $this->redirectToRoute('commentaire_index');
+                }
+
+                return $this->render('commentaire/edit.html.twig', [
+                    'commentaire' => $commentaire,
+                    'form' => $form->createView(),
+                ]);
+            } else {
+                return $this->redirectToRoute('error');
+            }
+        } else {
+            return $this->redirectToRoute('error');
         }
 
-        return $this->render('commentaire/edit.html.twig', [
-            'commentaire' => $commentaire,
-            'form' => $form->createView(),
-        ]);
     }
 
     #[Route('/{id}', name: 'commentaire_delete', methods: ['DELETE'])]
     public function delete(Request $request, Commentaire $commentaire): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$commentaire->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($commentaire);
-            $entityManager->flush();
-        }
+        if (!empty($this->getUser())) {
+            $inf_roles = $this->getUser()->getRoles();
 
-        return $this->redirectToRoute('commentaire_index');
+            if (in_array("ROLE_ADMIN", $inf_roles)) {
+
+                if ($this->isCsrfTokenValid('delete' . $commentaire->getId(), $request->request->get('_token'))) {
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->remove($commentaire);
+                    $entityManager->flush();
+                }
+
+                return $this->redirectToRoute('commentaire_index');
+            } else {
+                return $this->redirectToRoute('error');
+            }
+        } else {
+            return $this->redirectToRoute('error');
+        }
     }
 }
