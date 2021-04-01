@@ -5,11 +5,12 @@
                 <label for="commentaire_reponse" class="required font-size-5 mb-2">Reponse : </label>
                 <textarea class="form-control" id="commentaire_reponse" name="commentaire[reponse]" required="required"style="height: 100px; width: 400px"></textarea>
             </div>
-            <input type="hidden" id="commentaire_id_topic" name="commentaire[id_topic]" value="3">
+            <input type="hidden" id="commentaire_id_topic" name="commentaire[id_topic]" value="{{ topic.id }}">
             <input type="hidden" id="commentaire_best_rep" name="commentaire[best_rep]" value="0">
             <input type="hidden" id="commentaire__token" name="commentaire[_token]" value="rURjUoIN9ggr4MlxUH95d1u0QxxGdLFs65pO1Z3lc0Q">
         </div>
         <button class="btn btn-outline-primary">{{ button_label|default('Save') }}</button>
+        {{ form_row(form._token) }}
     </form>
 
 

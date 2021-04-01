@@ -1,3 +1,35 @@
+{%  if app.user and 'ROLE_ADMIN' in app.user.roles %}
+
+<form name="user" method="post">
+    <div id="user">
+        <div>
+            <label for="user_pseudo" class="required">Pseudo</label>
+            <input type="text" id="user_pseudo" name="user[pseudo]" required="required" value="cazier">
+        </div>
+        <div><label class="required">Roles</label>
+            <div id="user_roles">
+                <div>
+                    <select id="user_roles_0" name="user[roles][0]">
+                        <option value="ROLE_ADMIN">Admin</option>
+                        <option value="ROLE_USER" selected="selected">User</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label for="user_password_first" class="required">Password</label>
+            <input type="password" id="user_password_first" name="user[password][first]" required="required">
+        </div>
+        <div><label for="user_password_second" class="required">Repeat Password</label>
+            <input type="password" id="user_password_second" name="user[password][second]" required="required">
+        </div>
+        <input type="hidden" id="user__token" name="user[_token]" value="x5osWGPQ1_IW0HPlePM31rr_DWZvtSriajYxGlMWoII">
+
+    </div>
+    <button class="btn btn-outline-primary">{{ button_label|default('Save') }}</button>
+    {{ form_row(form._token) }}
+</form>
+{% else %}
 <form name="user" method="post" class="d-flex justify-content-center flex-column align-items-center">
     <div id="user">
         <div class="new_topic mb-3 me-5 ms-5 mt-5">
@@ -16,5 +48,6 @@
     </div>
     </div>
     <button class="btn btn-outline-primary">{{ button_label|default('Save') }}</button>
+    {{ form_row(form._token) }}
 </form>
-
+{% endif %}
